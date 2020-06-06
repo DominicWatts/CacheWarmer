@@ -3,6 +3,7 @@ parameters:
     autoload_directories:
         - Console
         - Helper
+        - Logger
         - Model
     excludes_analyse:
         - 'vendor'
