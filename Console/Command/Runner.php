@@ -88,6 +88,11 @@ class Runner extends Command
     protected $customLogger;
 
     /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * Runner constructor.
      * @param LoggerInterface $logger
      * @param State $state
