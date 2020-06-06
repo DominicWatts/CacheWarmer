@@ -1,6 +1,8 @@
-# Benchmark #
+# Magento 2 Site based Cachewarmer / Link checker / Siege Tester
 
-Benchmark shell script to test timings on actions.
+Magento 2 cache warmer / link checker / siege tester.
+
+This is lightweight cache warmer, link checker or siege tester. With option for verbose console and / or logging to file. Scans store URL, products, categories and CMS pages. Configuration for User agent.
 
 ![phpcs](https://github.com/DominicWatts/CacheWarmer/workflows/phpcs/badge.svg)
 
@@ -8,7 +10,7 @@ Benchmark shell script to test timings on actions.
 
 ![PHPStan](https://github.com/DominicWatts/CacheWarmer/workflows/PHPStan/badge.svg)
 
-# Install instructions #
+# Install instructions
 
 `composer require dominicwatts/cachewarmer`
 
@@ -16,6 +18,18 @@ Benchmark shell script to test timings on actions.
 
 `php bin/magento setup:di:compile`
 
-# Usage instructions #
+# Usage instructions
 
-    Work in progress
+    xigen:cachewarmer:runner [-s|--store STORE] [--] <warm> [<log>]
+
+Run on default store ID 1
+
+    xigen:cachewarmer:runner warm
+
+Run on default store ID 1 logging to `cachewarmer.log`
+
+    xigen:cachewarmer:runner warm log
+
+Run on store ID 3 logging to `cachewarmer.log`
+
+    xigen:cachewarmer:runner warm log -s 3

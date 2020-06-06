@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Xigen\CacheWarmer\Model\ItemInterface" type="Xigen\CacheWarmer\Model\Item" />
+    <preference for="Xigen\CacheWarmer\Model\ItemProvider\ItemProviderInterface" type="Xigen\CacheWarmer\Model\ItemProvider\Composite" />
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="XigenCacheWarmer_Runner" xsi:type="object">Xigen\CacheWarmer\Console\Command\Runner</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Xigen\CacheWarmer\Model\ItemProvider\Composite">
+        <arguments>
+            <argument name="itemProviders" xsi:type="array">
+                <item name="storeUrlProvider" xsi:type="object">Xigen\CacheWarmer\Model\ItemProvider\StoreUrl</item>
+                <item name="productProvider" xsi:type="object">Xigen\CacheWarmer\Model\ItemProvider\Product</item>
+                <item name="categoryProvider" xsi:type="object">Xigen\CacheWarmer\Model\ItemProvider\Category</item>
+                <item name="cmsPageProvider" xsi:type="object">Xigen\CacheWarmer\Model\ItemProvider\CmsPage</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Xigen\CacheWarmer\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Xigen\CacheWarmer\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">CacheWarmer_Log</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Xigen\CacheWarmer\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
