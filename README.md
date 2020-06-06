@@ -26,6 +26,10 @@ Run on default store ID 1
 
     xigen:cachewarmer:runner warm
 
+Run on default store ID 1 with verbose output `[-v|--verbose VERBOSE]`
+
+    xigen:cachewarmer:runner warm -v
+
 Run on default store ID 1 logging to `cachewarmer.log`
 
     xigen:cachewarmer:runner warm log
