@@ -173,7 +173,7 @@ class Runner extends Command
                 "%current%/%max% [%bar%] %percent:3s%% %elapsed% %memory:6s% \t| %message%"
             );
 
-            if ($output->getVerbosity() !== OutputInterface::VERBOSITY_NORMAL) {
+            if ($this->output->getVerbosity() !== OutputInterface::VERBOSITY_NORMAL) {
                 $progress->setOverwrite(false);
             }
 
@@ -219,6 +219,9 @@ class Runner extends Command
                 $userAgent->getVersion(),
                 $userAgent->getEdition()
             ));
+            if ($this->output->getVerbosity() !== OutputInterface::VERBOSITY_NORMAL) {
+                $this->curl->setOption(CURLOPT_VERBOSE, 1);
+            }
             $this->curl->get($url);
             $response = $this->curl->getBody();
             $reason = null;
