@@ -1,28 +1,32 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
-	<system>
-		<tab id="xigen" sortOrder="500" translate="label">
-			<label>Xigen</label>
-		</tab>
-		<section id="cachewarmer" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
-			<label>Cache Warmer</label>
-			<tab>xigen</tab>
-			<resource>Xigen_CacheWarmer::config_xigen_cachewarmer</resource>
-			<group id="options" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
-				<label>Options</label>
-				<field id="agent_name" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
-					<label>User Agent Name</label>
-					<comment>For example: Mozilla</comment>
-				</field>
-				<field id="agent_version" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="text">
-					<label>User Agent Version</label>
-					<comment>For example: 5.0</comment>
-				</field>
-				<field id="agent_edition" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="30" translate="label" type="text">
-					<label>User Agent Edition</label>
-					<comment>For example: X11; Linux x86_64; rv:68.0</comment>
-				</field>
-			</group>
-		</section>
-	</system>
+    <system>
+        <tab id="xigen" sortOrder="500" translate="label">
+            <label>Xigen</label>
+        </tab>
+        <section id="cachewarmer" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+            <label>Cache Warmer</label>
+            <tab>xigen</tab>
+            <resource>Xigen_CacheWarmer::config_xigen_cachewarmer</resource>
+            <group id="options" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Options</label>
+                <field id="agent_name" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+                    <label>User Agent Name</label>
+                    <comment>For example: Mozilla</comment>
+                </field>
+                <field id="agent_version" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="text">
+                    <label>User Agent Version</label>
+                    <comment>For example: 5.0</comment>
+                </field>
+                <field id="agent_edition" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="30" translate="label" type="text">
+                    <label>User Agent Edition</label>
+                    <comment>For example: X11; Linux x86_64; rv:68.0</comment>
+                </field>
+                <field id="proxy" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="30" translate="label" type="text">
+                    <label>Proxy</label>
+                    <comment>For example: https://web.magento2.docker:443</comment>
+                </field>
+            </group>
+        </section>
+    </system>
 </config>

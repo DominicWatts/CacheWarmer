@@ -93,6 +93,11 @@ class Runner extends Command
     protected $storeManager;
 
     /**
+     * @var StoreManagerInterface
+     */
+    protected $store = null;
+
+    /**
      * Runner constructor.
      * @param LoggerInterface $logger
      * @param State $state
@@ -179,11 +184,14 @@ class Runner extends Command
 
             $progress->start();
 
+            $this->store = $this->storeManager->getStore($storeId);
+
             // some servers block blank useragent
-            $userAgent = $this->prepareObject($storeId);
+            $userAgent = $this->prepareObject();
+            $proxy = $this->config->getProxy($this->store);
 
             foreach ($build->getUrls() as $url) {
-                $result = (string) __('%1', $this->fetchUrl($url, $userAgent));
+                $result = (string) __('%1', $this->fetchUrl($url, $userAgent, $proxy));
                 if ($logToFile) {
                     $this->customLogger->info($result);
                 }
@@ -203,7 +211,7 @@ class Runner extends Command
      * @param DataObject $userAgent
      * @return string
      */
-    public function fetchUrl($url, DataObject $userAgent)
+    public function fetchUrl($url, DataObject $userAgent, $proxy = null)
     {
         try {
             $this->curl->setOption(CURLOPT_CONNECTTIMEOUT, 5);
@@ -221,6 +229,11 @@ class Runner extends Command
             ));
             if ($this->output->getVerbosity() !== OutputInterface::VERBOSITY_NORMAL) {
                 $this->curl->setOption(CURLOPT_VERBOSE, 1);
+            }
+
+            if ($proxy) {
+                $this->curl->setOption(CURLOPT_HTTPPROXYTUNNEL, 1);
+                $this->curl->setOption(CURLOPT_PROXY, $proxy);
             }
             $this->curl->get($url);
             $response = $this->curl->getBody();
@@ -272,16 +285,14 @@ class Runner extends Command
 
     /**
      * Prepare user agent object
-     * @param int $storeId
      * @return \Magento\Framework\DataObject
      */
-    protected function prepareObject($storeId)
+    protected function prepareObject()
     {
-        $store = $this->storeManager->getStore($storeId);
         $object = new DataObject();
-        $object->setName($this->config->getAgentName($store));
-        $object->setVersion($this->config->getAgentVersion($store));
-        $object->setEdition($this->config->getAgentEdition($store));
+        $object->setName($this->config->getAgentName($this->store));
+        $object->setVersion($this->config->getAgentVersion($this->store));
+        $object->setEdition($this->config->getAgentEdition($this->store));
         return $object;
     }
 
