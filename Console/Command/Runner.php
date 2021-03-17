@@ -22,6 +22,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Xigen\CacheWarmer\Helper\Config;
 use Xigen\CacheWarmer\Logger\Logger;
 use Xigen\CacheWarmer\Model\WarmFactory;
@@ -93,6 +94,11 @@ class Runner extends Command
     protected $storeManager;
 
     /**
+     * @var StoreManagerInterface
+     */
+    protected $store = null;
+
+    /**
      * Runner constructor.
      * @param LoggerInterface $logger
      * @param State $state
@@ -155,6 +161,9 @@ class Runner extends Command
                 return Cli::RETURN_FAILURE;
             }
 
+            $stopwatch = new Stopwatch();
+            $stopwatch->start('cache_warm_runner');
+
             $this->output->writeln('[' . $this->dateTime->gmtDate() . '] Start');
 
             $build = $this->warmFactory
@@ -179,11 +188,14 @@ class Runner extends Command
 
             $progress->start();
 
+            $this->store = $this->storeManager->getStore($storeId);
+
             // some servers block blank useragent
-            $userAgent = $this->prepareObject($storeId);
+            $userAgent = $this->prepareObject();
+            $proxy = $this->config->getProxy($this->store);
 
             foreach ($build->getUrls() as $url) {
-                $result = (string) __('%1', $this->fetchUrl($url, $userAgent));
+                $result = (string) __('%1', $this->fetchUrl($url, $userAgent, $proxy));
                 if ($logToFile) {
                     $this->customLogger->info($result);
                 }
@@ -194,6 +206,13 @@ class Runner extends Command
             $progress->finish();
             $this->output->writeln('');
             $this->output->writeln('[' . $this->dateTime->gmtDate() . '] Finish');
+
+            $event = $stopwatch->stop('cache_warm_runner');
+
+            $this->output->writeln((string) $event);
+            $this->output->writeln((string) __("Start : %1", date("d-m-Y H:i:s", (int) ($event->getOrigin() / 1000))));
+            $this->output->writeln((string) __("End : %1", date("d-m-Y H:i:s", (int) (($event->getOrigin() + $event->getEndTime()) / 1000))));
+            $this->output->writeln((string) __("Memory : %1 MiB", $event->getMemory() / 1024 / 1024));
         }
     }
 
@@ -203,7 +222,7 @@ class Runner extends Command
      * @param DataObject $userAgent
      * @return string
      */
-    public function fetchUrl($url, DataObject $userAgent)
+    public function fetchUrl($url, DataObject $userAgent, $proxy = null)
     {
         try {
             $this->curl->setOption(CURLOPT_CONNECTTIMEOUT, 5);
@@ -221,6 +240,11 @@ class Runner extends Command
             ));
             if ($this->output->getVerbosity() !== OutputInterface::VERBOSITY_NORMAL) {
                 $this->curl->setOption(CURLOPT_VERBOSE, 1);
+            }
+
+            if ($proxy) {
+                $this->curl->setOption(CURLOPT_HTTPPROXYTUNNEL, 1);
+                $this->curl->setOption(CURLOPT_PROXY, $proxy);
             }
             $this->curl->get($url);
             $response = $this->curl->getBody();
@@ -272,16 +296,14 @@ class Runner extends Command
 
     /**
      * Prepare user agent object
-     * @param int $storeId
      * @return \Magento\Framework\DataObject
      */
-    protected function prepareObject($storeId)
+    protected function prepareObject()
     {
-        $store = $this->storeManager->getStore($storeId);
         $object = new DataObject();
-        $object->setName($this->config->getAgentName($store));
-        $object->setVersion($this->config->getAgentVersion($store));
-        $object->setEdition($this->config->getAgentEdition($store));
+        $object->setName($this->config->getAgentName($this->store));
+        $object->setVersion($this->config->getAgentVersion($this->store));
+        $object->setEdition($this->config->getAgentEdition($this->store));
         return $object;
     }
 
