@@ -6,7 +6,7 @@
                 <agent_name>Mozilla</agent_name>
                 <agent_version>5.0</agent_version>
                 <agent_edition>X11; Linux x86_64; rv:68.0</agent_edition>
-                <proxy>https://web.magento2.docker:443</proxy>
+                <proxy/>
             </options>
         </cachewarmer>
     </default>
