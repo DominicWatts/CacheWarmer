@@ -22,6 +22,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Xigen\CacheWarmer\Helper\Config;
 use Xigen\CacheWarmer\Logger\Logger;
 use Xigen\CacheWarmer\Model\WarmFactory;
@@ -160,6 +161,9 @@ class Runner extends Command
                 return Cli::RETURN_FAILURE;
             }
 
+            $stopwatch = new Stopwatch();
+            $stopwatch->start('cache_warm_runner');
+
             $this->output->writeln('[' . $this->dateTime->gmtDate() . '] Start');
 
             $build = $this->warmFactory
@@ -202,6 +206,13 @@ class Runner extends Command
             $progress->finish();
             $this->output->writeln('');
             $this->output->writeln('[' . $this->dateTime->gmtDate() . '] Finish');
+
+            $event = $stopwatch->stop('cache_warm_runner');
+
+            $this->output->writeln((string) $event);
+            $this->output->writeln((string) __("Start : %1", date("d-m-Y H:i:s", (int) ($event->getOrigin() / 1000))));
+            $this->output->writeln((string) __("End : %1", date("d-m-Y H:i:s", (int) (($event->getOrigin() + $event->getEndTime()) / 1000))));
+            $this->output->writeln((string) __("Memory : %1 MiB", $event->getMemory() / 1024 / 1024));
         }
     }
 
