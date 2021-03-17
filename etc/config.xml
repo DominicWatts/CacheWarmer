@@ -1,13 +1,13 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
-	<default>
-		<cachewarmer>
-			<options>
-				<agent_name>Mozilla</agent_name>
-				<agent_version>5.0</agent_version>
-				<agent_edition>X11; Linux x86_64; rv:68.0</agent_edition>
-				<proxy>https://web.magento2.docker:443</proxy>
-			</options>
-		</cachewarmer>
-	</default>
+    <default>
+        <cachewarmer>
+            <options>
+                <agent_name>Mozilla</agent_name>
+                <agent_version>5.0</agent_version>
+                <agent_edition>X11; Linux x86_64; rv:68.0</agent_edition>
+                <proxy>https://web.magento2.docker:443</proxy>
+            </options>
+        </cachewarmer>
+    </default>
 </config>
