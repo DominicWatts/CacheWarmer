@@ -10,6 +10,9 @@ This is lightweight cache warmer, link checker or siege tester. With option for 
 
 ![PHPStan](https://github.com/DominicWatts/CacheWarmer/workflows/PHPStan/badge.svg)
 
+![php-cs-fixer](https://github.com/DominicWatts/CacheWarmer/workflows/php-cs-fixer/badge.svg)
+
+
 # Install instructions
 
 `composer require dominicwatts/cachewarmer`
