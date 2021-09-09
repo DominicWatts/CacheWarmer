@@ -10,4 +10,5 @@ parameters:
     ignoreErrors:
         - '#invalid typehint#'
         - '#unknown class#'
+        - '#unexpected 'static#'
     reportUnmatchedIgnoredErrors: false

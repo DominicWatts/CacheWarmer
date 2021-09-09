@@ -19,13 +19,13 @@ class Config extends AbstractHelper
     /**
      * @param Context $context
      */
-    // phpcs:disable 
+    // phpcs:disable
     public function __construct(
         Context $context
     ) {
         parent::__construct($context);
     }
-    // phpcs:enable 
+    // phpcs:enable
 
     /**
      * Get user agent name
