@@ -10,5 +10,5 @@ parameters:
     ignoreErrors:
         - '#invalid typehint#'
         - '#unknown class#'
-        - '#unexpected 'static#'
+        - '#T_STATIC#'
     reportUnmatchedIgnoredErrors: false

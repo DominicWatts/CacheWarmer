@@ -211,7 +211,10 @@ class Runner extends Command
 
             $this->output->writeln((string) $event);
             $this->output->writeln((string) __("Start : %1", date("d-m-Y H:i:s", (int) ($event->getOrigin() / 1000))));
-            $this->output->writeln((string) __("End : %1", date("d-m-Y H:i:s", (int) (($event->getOrigin() + $event->getEndTime()) / 1000))));
+            $this->output->writeln((string) __(
+                "End : %1",
+                date("d-m-Y H:i:s", (int) (($event->getOrigin() + $event->getEndTime()) / 1000))
+            ));
             $this->output->writeln((string) __("Memory : %1 MiB", $event->getMemory() / 1024 / 1024));
         }
     }
