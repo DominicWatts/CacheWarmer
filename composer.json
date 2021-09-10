@@ -20,7 +20,7 @@
     "require": {
         "magento/framework": "*",
         "magento/module-cms": "*",
-        "symfony/stopwatch": "*",
+        "symfony/stopwatch": "^5.3",
         "php": ">=7.1.3"
     },
     "autoload": {
