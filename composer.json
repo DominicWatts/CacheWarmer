@@ -3,7 +3,7 @@
     "description": "Magento 2 cache warmer / link checker / siege tester",
     "type": "magento2-module",
     "license": "OSL-3.0",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "authors": [
         {
             "email": "dominic@xigen.co.uk",
@@ -20,7 +20,7 @@
     "require": {
         "magento/framework": "*",
         "magento/module-cms": "*",
-        "symfony/stopwatch": "*",
+        "symfony/stopwatch": "^5.3",
         "php": ">=7.1.3"
     },
     "autoload": {
