@@ -99,12 +99,16 @@ class Runner extends Command
     protected $store = null;
 
     /**
-     * Runner constructor.
-     * @param LoggerInterface $logger
-     * @param State $state
-     * @param DateTime $dateTime
-     * @param ProgressBarFactory $progressBarFactory
-     * @param WarmFactory $warmFactory
+     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Magento\Framework\App\State $state
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
+     * @param \Symfony\Component\Console\Helper\ProgressBarFactory $progressBarFactory
+     * @param \Xigen\CacheWarmer\Model\WarmFactory $warmFactory
+     * @param \Magento\Framework\HTTP\Adapter\CurlFactory $curlFactory
+     * @param \Magento\Framework\HTTP\Client\Curl $curl
+     * @param \Xigen\CacheWarmer\Helper\Config $config
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Xigen\CacheWarmer\Logger\Logger $customLogger
      */
     public function __construct(
         LoggerInterface $logger,
@@ -223,6 +227,7 @@ class Runner extends Command
      * Fetch URL
      * @param string $url
      * @param DataObject $userAgent
+     * @param null|bool $proxy
      * @return string
      */
     public function fetchUrl($url, DataObject $userAgent, $proxy = null)
